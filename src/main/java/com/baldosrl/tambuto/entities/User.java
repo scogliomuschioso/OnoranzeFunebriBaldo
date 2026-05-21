@@ -1,6 +1,7 @@
 package com.baldosrl.tambuto.entities;
 
 
+import com.baldosrl.tambuto.supports.Ruolo;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -29,6 +30,11 @@ public class User {
     @Column(name="id",nullable = false)
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
+
+    @Id
+    @Column(name="ruolo",nullable = false)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Ruolo ruolo;
 
     @OneToOne(mappedBy = "cliente",cascade = CascadeType.ALL) //il controllo della relazione non ce l'ha
     //client ma carrello

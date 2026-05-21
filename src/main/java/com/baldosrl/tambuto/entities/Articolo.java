@@ -1,5 +1,6 @@
 package com.baldosrl.tambuto.entities;
 
+import com.baldosrl.tambuto.supports.Stato;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -47,8 +48,5 @@ public class Articolo {
     @Column(name="stato",nullable = false)
     private Stato stato;
 
-enum Stato{
-        incarrello,comprato
-    }
 }
 
