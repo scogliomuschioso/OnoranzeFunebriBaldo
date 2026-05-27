@@ -25,7 +25,4 @@ public class Lista {
     @Column(name="quantita",nullable = false)
     private int qta;
 
-    @Basic
-    @Column(name="datadiacq",nullable = false)
-    private Date datadiacq;
 }

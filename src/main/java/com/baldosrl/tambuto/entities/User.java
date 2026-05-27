@@ -1,9 +1,12 @@
 package com.baldosrl.tambuto.entities;
 
 
-import com.baldosrl.tambuto.supports.Ruolo;
+import com.baldosrl.tambuto.supports.enumerations.Ruolo;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -31,12 +34,11 @@ public class User {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
-    @Id
     @Column(name="ruolo",nullable = false)
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Ruolo ruolo;
 
-    @OneToOne(mappedBy = "cliente",cascade = CascadeType.ALL) //il controllo della relazione non ce l'ha
-    //client ma carrello
-    private Carrello carello;
+    // l'utente ha più carrelli in modo da poter andare a dividere quelli acquistati e non
+    @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL)
+    private List<Carrello> storicoOrdini = new ArrayList<>();
 }

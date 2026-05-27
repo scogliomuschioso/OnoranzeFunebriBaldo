@@ -1,10 +1,9 @@
 package com.baldosrl.tambuto.entities;
 
-import com.baldosrl.tambuto.supports.Stato;
+import com.baldosrl.tambuto.supports.enumerations.Stato;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import javax.imageio.plugins.jpeg.JPEGImageReadParam;
 import java.util.Set;
 
 
@@ -42,11 +41,6 @@ public class Articolo {
     @Basic
     @Column(name="descrizione",nullable = false)
     private String descrizione;
-
-    @Basic
-    @Enumerated(EnumType.STRING)
-    @Column(name="stato",nullable = false)
-    private Stato stato;
 
 }
 
