@@ -81,12 +81,5 @@ public float getTotale(User u){
         return  listarepo.save(rigaDaSalvare);
     }
 
-    //siccome fa un azione di lettura non inserisco transactional
-    public List<Lista> carrello(User u){
-        if (userRepo.existsById(u.getId())){
-            return listarepo.findByCarrelloStatoAndCarrelloUtente(Stato.incarrello,u);
-        } else
-            throw new UtenteNonTrovatoException();
-    }
 
 }

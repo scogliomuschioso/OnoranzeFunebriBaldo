@@ -16,6 +16,8 @@ import java.util.List;
 @Repository
 public interface ArticoloRepo extends JpaRepository<Articolo,Integer> {
 
+    boolean existsByNomeAndTipoArticolo(String nome,String tipo);
+
     @Query("SELECT a " +
             "FROM Articolo a " +
             "WHERE (a.nome LIKE ?1 OR ?1 IS NULL) AND " +
