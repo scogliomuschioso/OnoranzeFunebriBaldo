@@ -11,6 +11,7 @@ import com.baldosrl.tambuto.entities.User;
 import com.baldosrl.tambuto.services.AccountService;
 import com.baldosrl.tambuto.services.ArticoloService;
 import com.baldosrl.tambuto.services.CarrelloService;
+import com.baldosrl.tambuto.services.ListaService;
 import com.baldosrl.tambuto.supports.exceptions.CarrelloChiusoException;
 import com.baldosrl.tambuto.supports.exceptions.NonAbbastanzaUnitaException;
 import com.baldosrl.tambuto.supports.exceptions.QuantitaMinoreDiZeroException;
@@ -30,10 +31,19 @@ private CarrelloService carrelloService;
     @Autowired
 private AccountService accountService;
 @Autowired
-private ArticoloService articoloService;
+private ListaService listaService;
 
 
-
+    @PostMapping("/{userid}/acquista")
+    public ResponseEntity acquista(@PathVariable int userid){
+        try{
+            User user = accountService.trovauser(userid);
+            listaService.compracarrello(user);
+            return ResponseEntity.ok("acquisto completato con successo");
+        }catch(UtenteNonTrovatoException |NonAbbastanzaUnitaException e){
+            return new ResponseEntity<>(new ResponseMessage(e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @PostMapping("/aggiungi")
     public ResponseEntity aggiungiArticolo(@RequestBody AggiungiArticoloRequest agg){
