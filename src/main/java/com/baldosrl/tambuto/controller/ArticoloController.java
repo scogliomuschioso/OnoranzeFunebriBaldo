@@ -10,6 +10,7 @@ import com.baldosrl.tambuto.supports.exceptions.QuantitaMinoreDiZeroException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,13 +22,15 @@ public class ArticoloController {
     @Autowired
     private ArticoloService articoloService;
 
-    @GetMapping
+    @GetMapping("/tutti")
     public ResponseEntity articolidisp(){
         ConteinerDTO DTO = new ConteinerDTO();
         DTO.setArt(articoloService.tuttiarticoli());
         return ResponseEntity.ok(DTO);
     }
 
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity aggiungiarticolo(@RequestBody ArticoloDTO art){
         Articolo nuovo = new Articolo();
@@ -48,6 +51,7 @@ public class ArticoloController {
     return    ResponseEntity.ok(dto);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{idArt}/refill")
     public ResponseEntity refillArticolo(@PathVariable int idArt, @RequestParam int qta) {
         try {

@@ -26,7 +26,6 @@ public class UserController {
             us.setCognome(request.getCognome());
             us.setEmail(request.getEmail());
             us.setNome(request.getNome());
-            us.setRuolo(request.getRuolo());
             us.setTelefono(request.getTelefono());
             us.setStoricoOrdini(request.getStoricoOrdini());
             accountService.aggiungiuser(us);

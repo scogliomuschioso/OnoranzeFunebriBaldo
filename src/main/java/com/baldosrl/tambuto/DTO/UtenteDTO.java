@@ -1,7 +1,6 @@
 package com.baldosrl.tambuto.DTO;
 
 import com.baldosrl.tambuto.entities.Carrello;
-import com.baldosrl.tambuto.supports.enumerations.Ruolo;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -13,7 +12,6 @@ public class UtenteDTO {
     private String cognome;
     private int telefono;
     private int id;
-    private Ruolo ruolo;
     private List<Carrello> storicoOrdini = new ArrayList<>();
 
     public String getEmail() {
@@ -36,9 +34,6 @@ public class UtenteDTO {
         return id;
     }
 
-    public Ruolo getRuolo() {
-        return ruolo;
-    }
 
     public List<Carrello> getStoricoOrdini() {
         return storicoOrdini;
@@ -64,9 +59,6 @@ public class UtenteDTO {
         this.id = id;
     }
 
-    public void setRuolo(Ruolo ruolo) {
-        this.ruolo = ruolo;
-    }
 
     public void setStoricoOrdini(List<Carrello> storicoOrdini) {
         this.storicoOrdini = storicoOrdini;
