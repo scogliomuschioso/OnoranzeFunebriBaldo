@@ -12,6 +12,7 @@ import com.baldosrl.tambuto.services.AccountService;
 import com.baldosrl.tambuto.services.ArticoloService;
 import com.baldosrl.tambuto.services.CarrelloService;
 import com.baldosrl.tambuto.services.ListaService;
+import com.baldosrl.tambuto.supports.authentication.Utils;
 import com.baldosrl.tambuto.supports.exceptions.CarrelloChiusoException;
 import com.baldosrl.tambuto.supports.exceptions.NonAbbastanzaUnitaException;
 import com.baldosrl.tambuto.supports.exceptions.QuantitaMinoreDiZeroException;
@@ -34,10 +35,11 @@ private AccountService accountService;
 private ListaService listaService;
 
 
-    @PostMapping("/{userid}/acquista")
-    public ResponseEntity acquista(@PathVariable int userid){
+    @PostMapping("/acquista")
+    public ResponseEntity acquista(){
         try{
-            User user = accountService.trovauser(userid);
+            String email = Utils.getEmail();
+            User user = accountService.trovauseremail(email);
             listaService.compracarrello(user);
             return ResponseEntity.ok("acquisto completato con successo");
         }catch(UtenteNonTrovatoException |NonAbbastanzaUnitaException e){
@@ -61,10 +63,11 @@ private ListaService listaService;
             return new ResponseEntity<>(new ResponseMessage(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
-    @GetMapping("/{userid}")
-    public ResponseEntity carrello(@PathVariable int userid){
+    @GetMapping()
+    public ResponseEntity carrello(){
         try {
-            User user = accountService.trovauser(userid);
+            String email = Utils.getEmail();
+            User user = accountService.trovauseremail(email);
             Carrello carrello = carrelloService.getCarrelloAttivo(user);
             CarrelloDTO dto = new CarrelloDTO();
             dto.setDatadiacq(carrello.getDatadiacq());

@@ -37,7 +37,6 @@ public class ArticoloController {
         nuovo.setQuantita(art.getQuantita());
         nuovo.setNome(art.getNome());
         nuovo.setLista(art.getLista());
-        nuovo.setImmagine(art.getImmagine());
         nuovo.setDescrizione(art.getDescrizione());
         nuovo.setTipoArticolo(art.getTipoArticolo());
         return ResponseEntity.status(HttpStatus.CREATED).body(articoloService.aggiungiArticolo(nuovo));
