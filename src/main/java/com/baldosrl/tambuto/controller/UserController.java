@@ -1,10 +1,12 @@
 package com.baldosrl.tambuto.controller;
 
 
+import com.baldosrl.tambuto.DTO.Registrazione;
 import com.baldosrl.tambuto.DTO.ResponseMessage;
 import com.baldosrl.tambuto.DTO.UtenteDTO;
 import com.baldosrl.tambuto.entities.User;
 import com.baldosrl.tambuto.services.AccountService;
+import com.baldosrl.tambuto.supports.authentication.Utils;
 import com.baldosrl.tambuto.supports.exceptions.EmailGiaPresenteException;
 import com.baldosrl.tambuto.supports.exceptions.UtenteNonTrovatoException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,26 +22,27 @@ public class UserController {
     private AccountService accountService;
 
     @PostMapping("/registrazione")
-    public ResponseEntity registraUtente(@RequestBody UtenteDTO request) {
+    public ResponseEntity registraUtente(@RequestBody Registrazione request) {
         try {
-            User us = new User();
-            us.setCognome(request.getCognome());
-            us.setEmail(request.getEmail());
-            us.setNome(request.getNome());
-            us.setTelefono(request.getTelefono());
-            us.setStoricoOrdini(request.getStoricoOrdini());
-            accountService.aggiungiuser(us);
+            accountService.aggiungiuser(request);
             return ResponseEntity.ok("registrazione eseguita con successo");
         } catch (EmailGiaPresenteException e){
             return new ResponseEntity<>(new ResponseMessage(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @GetMapping("/{userid}")
-    public ResponseEntity trova(@PathVariable int userid){
+    @GetMapping()
+    public ResponseEntity trova(){
         try {
+            String email =Utils.getEmail();
+            User user= accountService.trovauseremail(email);
             UtenteDTO dto = new UtenteDTO();
-            accountService.trovauser(userid);
+            dto.setId(user.getId());
+            dto.setCognome(user.getCognome());
+            dto.setEmail(user.getEmail());
+            dto.setNome(user.getNome());
+            dto.setTelefono(user.getTelefono());
+            dto.setStoricoOrdini(user.getStoricoOrdini());
             return ResponseEntity.ok(dto);
         } catch (UtenteNonTrovatoException e){
             return new ResponseEntity<>(new ResponseMessage(e.getMessage()), HttpStatus.BAD_REQUEST);

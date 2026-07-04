@@ -3,8 +3,8 @@ package com.baldosrl.tambuto.repositories;
 import com.baldosrl.tambuto.entities.Articolo;
 import com.baldosrl.tambuto.entities.User;
 import com.baldosrl.tambuto.supports.enumerations.Stato;
-import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -21,7 +21,7 @@ public interface ArticoloRepo extends JpaRepository<Articolo,Integer> {
     @Query("SELECT a " +
             "FROM Articolo a " +
             "WHERE (a.nome LIKE ?1 OR ?1 IS NULL) AND " +
-            "      (a.tipoarticolo LIKE ?2 OR ?2 IS NULL)")
+            "      (a.tipoArticolo LIKE ?2 OR ?2 IS NULL)")
     List<Articolo> advancedSearch(String nome, String tipo);
 
 

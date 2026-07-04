@@ -19,10 +19,6 @@ public class Articolo {
     private Set<Lista> lista;
 
     @Basic
-    @Column(name="immagine",nullable = false)
-    private String immagine;
-
-    @Basic
     @Column(name="quantita",nullable = false)
     private int quantita;
 
