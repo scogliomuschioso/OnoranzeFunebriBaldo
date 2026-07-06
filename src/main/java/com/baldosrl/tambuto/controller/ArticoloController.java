@@ -50,6 +50,12 @@ public class ArticoloController {
     return    ResponseEntity.ok(dto);
     }
 
+    @GetMapping("/tipi")
+    public ResponseEntity<List<String>> getCategorie() {
+        List<String> categorie = articoloService.tipidiarticolo();
+        return ResponseEntity.ok(categorie);
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{idArt}/refill")
     public ResponseEntity refillArticolo(@PathVariable int idArt, @RequestParam int qta) {

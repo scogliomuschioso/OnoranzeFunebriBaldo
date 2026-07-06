@@ -18,9 +18,14 @@ public interface ArticoloRepo extends JpaRepository<Articolo,Integer> {
 
     boolean existsByNomeAndTipoArticolo(String nome,String tipo);
 
+    @Query("SELECT DISTINCT a.tipoArticolo " +
+            "FROM Articolo a" +
+            " WHERE a.tipoArticolo IS NOT NULL")
+    List<String> trovatipi();
+
     @Query("SELECT a " +
             "FROM Articolo a " +
-            "WHERE (a.nome LIKE ?1 OR ?1 IS NULL) AND " +
+            "WHERE (a.nome LIKE %?1% OR ?1 IS NULL) AND " +
             "      (a.tipoArticolo LIKE ?2 OR ?2 IS NULL)")
     List<Articolo> advancedSearch(String nome, String tipo);
 

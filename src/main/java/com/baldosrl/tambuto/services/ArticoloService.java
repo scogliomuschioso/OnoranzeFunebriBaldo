@@ -21,6 +21,10 @@ public class ArticoloService {
         return articoloRepo.findAll();
     }
 
+    public List<String> tipidiarticolo(){
+        return articoloRepo.trovatipi();
+    }
+
     @Transactional
     public Articolo aggiungiArticolo(Articolo art) {
         boolean esisteGia = articoloRepo.existsByNomeAndTipoArticolo(art.getNome(), art.getTipoArticolo());

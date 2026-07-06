@@ -27,13 +27,14 @@ public class AccountService {
     if (userRepo.existsByEmail(request.getEmail()))
         throw new EmailGiaPresenteException();
         Keycloak keycloak = KeycloakBuilder.builder()
-                .serverUrl("http://localhost:8080")
+                .serverUrl("http://localhost:8081")
                 .realm("master").clientId("admin-cli").username("admin").password("admin").build();
         UserRepresentation userKeycloak = new UserRepresentation();
         userKeycloak.setEnabled(true);
-        userKeycloak.setUsername(request.getNome());
+        userKeycloak.setUsername(request.getEmail());
         userKeycloak.setEmail(request.getEmail());
         userKeycloak.setFirstName(request.getNome());
+        userKeycloak.setLastName(request.getCognome());
 
         CredentialRepresentation passwordCred = new CredentialRepresentation();
         passwordCred.setTemporary(false);
