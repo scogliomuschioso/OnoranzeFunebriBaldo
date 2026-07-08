@@ -3,8 +3,11 @@ package com.baldosrl.tambuto.entities;
 import com.baldosrl.tambuto.supports.enumerations.Stato;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,9 +26,9 @@ public class Carrello {
     private int totale;
 
 
-    @Basic
-    @Column(name="datadiacq",nullable = false)
-    private Date datadiacq;
+    @CreationTimestamp
+    @Column(name = "datadiacq", updatable = false)
+    private LocalDateTime datadiacq;
 
     @ManyToOne
     @JoinColumn(name = "utente_id")

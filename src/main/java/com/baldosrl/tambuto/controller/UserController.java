@@ -30,7 +30,6 @@ public class UserController {
             return new ResponseEntity<>(new ResponseMessage(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
-
     @GetMapping()
     public ResponseEntity trova(){
         try {

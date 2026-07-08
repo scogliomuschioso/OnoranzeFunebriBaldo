@@ -1,6 +1,7 @@
 package com.baldosrl.tambuto.entities;
 
 import com.baldosrl.tambuto.supports.enumerations.Stato;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -15,6 +16,7 @@ public class Articolo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "articolo",cascade = CascadeType.ALL)
     private Set<Lista> lista;
 

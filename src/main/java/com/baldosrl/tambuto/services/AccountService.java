@@ -54,12 +54,6 @@ public class AccountService {
         userRepo.save(user);
     }
 
-    public User trovauser(int id){
-        Optional<User> opt = userRepo.getUserById(id);
-        if (opt.isPresent())
-            return opt.get();
-    throw new UtenteNonTrovatoException();
-    }
 
     public User trovauseremail(String email){
         Optional<User> opt = userRepo.getUserByEmail(email);

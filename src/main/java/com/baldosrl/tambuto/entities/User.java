@@ -1,6 +1,7 @@
 package com.baldosrl.tambuto.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -35,6 +36,7 @@ public class User {
 
 
     // l'utente ha più carrelli in modo da poter andare a dividere quelli acquistati e non
+    @JsonIgnore
     @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL)
     private List<Carrello> storicoOrdini = new ArrayList<>();
 }

@@ -7,7 +7,6 @@ import java.util.Set;
 
 public class ArticoloDTO {
     private Set<Lista> lista;
-    private String immagine;
     private int quantita;
     private String tipoArticolo;
     private int prezzo;
@@ -22,13 +21,6 @@ public class ArticoloDTO {
         this.lista = lista;
     }
 
-    public String getImmagine() {
-        return immagine;
-    }
-
-    public void setImmagine(String immagine) {
-        this.immagine = immagine;
-    }
 
     public int getQuantita() {
         return quantita;

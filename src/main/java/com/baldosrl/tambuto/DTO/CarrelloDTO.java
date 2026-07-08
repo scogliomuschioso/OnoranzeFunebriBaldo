@@ -4,13 +4,40 @@ import com.baldosrl.tambuto.entities.Lista;
 import com.baldosrl.tambuto.entities.User;
 import com.baldosrl.tambuto.supports.enumerations.Stato;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 public class CarrelloDTO {
     private int id;
     private int totale;
-    private Date datadiacq;
+
+    public int getId() {
+        return id;
+    }
+
+    public int getTotale() {
+        return totale;
+    }
+
+    public LocalDateTime getDatadiacq() {
+        return datadiacq;
+    }
+
+    public User getUtente() {
+        return utente;
+    }
+
+    public Stato getStato() {
+        return stato;
+    }
+
+    public List<Lista> getLista() {
+        return lista;
+    }
+
+    private LocalDateTime datadiacq;
     private User utente;
     private Stato stato;
     private List<Lista> lista;
@@ -23,7 +50,7 @@ public class CarrelloDTO {
         this.totale = totale;
     }
 
-    public void setDatadiacq(Date datadiacq) {
+    public void setDatadiacq(LocalDateTime datadiacq) {
         this.datadiacq = datadiacq;
     }
 

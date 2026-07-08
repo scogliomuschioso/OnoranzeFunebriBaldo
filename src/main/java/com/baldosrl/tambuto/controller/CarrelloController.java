@@ -47,10 +47,31 @@ private ListaService listaService;
         }
     }
 
+    @PostMapping("/rimuovi")
+    public ResponseEntity rimuoviArticolo(@RequestBody AggiungiArticoloRequest agg){
+        try{
+            String email = Utils.getEmail();
+            User user = accountService.trovauseremail(email);
+            Lista salvato = carrelloService.toglialcarrello(user,agg.getQta(),agg.getIdarticolo());
+            ListaDTO dto = new ListaDTO();
+            if (salvato!=null){
+            dto.setArticolo(salvato.getArticolo());
+            dto.setCarrello(salvato.getCarrello());
+            dto.setId(salvato.getId());
+            dto.setQta(salvato.getQta());}
+            return ResponseEntity.ok(dto);
+        } catch (UtenteNonTrovatoException | QuantitaMinoreDiZeroException | NonAbbastanzaUnitaException |
+                 CarrelloChiusoException e){
+            return new ResponseEntity<>(new ResponseMessage(e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
     @PostMapping("/aggiungi")
     public ResponseEntity aggiungiArticolo(@RequestBody AggiungiArticoloRequest agg){
         try{
-            User user = accountService.trovauser(agg.getIdutente());
+            String email = Utils.getEmail();
+            User user = accountService.trovauseremail(email);
             Lista salvato = carrelloService.aggiungialcarrello(user,agg.getQta(),agg.getIdarticolo());
             ListaDTO dto = new ListaDTO();
             dto.setArticolo(salvato.getArticolo());
@@ -63,6 +84,7 @@ private ListaService listaService;
             return new ResponseEntity<>(new ResponseMessage(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
+
     @GetMapping()
     public ResponseEntity carrello(){
         try {

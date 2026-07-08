@@ -14,6 +14,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,10 +34,6 @@ private CarrelloRepo carrelloRepo;
 @Autowired
 private UserRepo userRepo;
 
-public float getTotale(User u){
-    if (!userRepo.existsById(u.getId())) throw new UtenteNonTrovatoException();
-    return getCarrelloAttivo(u).getTotale();
-        }
 
     public Carrello getCarrelloAttivo(User u){
         Optional<Carrello> carrello =carrelloRepo.getCarrellosByUtenteAndStato(u,Stato.incarrello);
@@ -45,8 +43,36 @@ public float getTotale(User u){
         Carrello carellonuovo= new Carrello();
         carellonuovo.setUtente(u);
         carellonuovo.setStato(Stato.incarrello);
+        carellonuovo.setDatadiacq(LocalDateTime.now());
         return carrelloRepo.save(carellonuovo);
     }
+
+    @Transactional
+    public Lista toglialcarrello(User u,int qta,int idart){
+        Articolo art = articoloRepo.findById(idart)
+                .orElseThrow(ArticoloNonEsistenteException::new);
+        Carrello carrello = getCarrelloAttivo(u);
+        //verificare che il carrello esista e che non sia già stato pagato
+        if (carrello.getStato() != Stato.incarrello) {
+            throw new CarrelloChiusoException();
+        }
+        Optional<Lista> doppione =listarepo.findByArticoloAndCarrello(art,carrello);
+        Lista rigaDaSalvare;
+        int totale = carrello.getTotale();
+            rigaDaSalvare = doppione.get();
+            int tot = rigaDaSalvare.getQta()-qta;
+            carrello.setTotale(totale-art.getPrezzo()*qta);
+        if (tot==0){
+            listarepo.delete(rigaDaSalvare);
+            carrelloRepo.save(carrello);
+            return null;
+        }
+            rigaDaSalvare.setQta(tot);
+        carrelloRepo.save(carrello);
+        return listarepo.save(rigaDaSalvare);
+    }
+
+
 
     @Transactional
     public Lista aggiungialcarrello(User u,int qta,int idart){
@@ -65,6 +91,8 @@ public float getTotale(User u){
         Optional<Lista> doppione =listarepo.findByArticoloAndCarrello(art,carrello);
         //effettivamnete c'è un doppione
         Lista rigaDaSalvare;
+        int totale = carrello.getTotale();
+        carrello.setTotale(totale+qta*art.getPrezzo());
         if (doppione.isPresent()){
             rigaDaSalvare = doppione.get();
             int tot = rigaDaSalvare.getQta()+qta;

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
 
 @RestController
@@ -36,9 +37,10 @@ public class ArticoloController {
         Articolo nuovo = new Articolo();
         nuovo.setQuantita(art.getQuantita());
         nuovo.setNome(art.getNome());
-        nuovo.setLista(art.getLista());
+        nuovo.setLista(new HashSet<>());
         nuovo.setDescrizione(art.getDescrizione());
         nuovo.setTipoArticolo(art.getTipoArticolo());
+        nuovo.setPrezzo(art.getPrezzo());
         return ResponseEntity.status(HttpStatus.CREATED).body(articoloService.aggiungiArticolo(nuovo));
     }
 
