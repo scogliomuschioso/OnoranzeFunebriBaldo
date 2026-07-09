@@ -16,6 +16,9 @@ public class Articolo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Version
+    private Long version;
+
     @JsonIgnore
     @OneToMany(mappedBy = "articolo",cascade = CascadeType.ALL)
     private Set<Lista> lista;

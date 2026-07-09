@@ -21,6 +21,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -44,6 +45,9 @@ private ListaService listaService;
             return ResponseEntity.ok("acquisto completato con successo");
         }catch(UtenteNonTrovatoException |NonAbbastanzaUnitaException e){
             return new ResponseEntity<>(new ResponseMessage(e.getMessage()), HttpStatus.BAD_REQUEST);
+        } catch (ObjectOptimisticLockingFailureException o){
+            return new ResponseEntity<>("errore dovuto a troppo traffico o per articolo selezionato terminato",
+                    HttpStatus.CONFLICT);
         }
     }
 

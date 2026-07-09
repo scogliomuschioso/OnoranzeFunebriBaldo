@@ -12,6 +12,9 @@ import com.baldosrl.tambuto.supports.enumerations.Stato;
 import com.baldosrl.tambuto.supports.exceptions.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -26,6 +29,12 @@ public class ListaService {
     @Autowired
     private CarrelloRepo carrelloRepo;
 
+
+    @Retryable(
+            value = ObjectOptimisticLockingFailureException.class,
+            maxAttempts = 3,
+            backoff = @Backoff(delay = 150)
+    )
     @Transactional
     public void compracarrello(User u) {
         Optional<Carrello> carrello = carrelloRepo.getCarrellosByUtenteAndStato(u,Stato.incarrello);
@@ -40,6 +49,7 @@ public class ListaService {
                         art.setQuantita(art.getQuantita()-l.getQta());
                     carrelloutente.setStato(Stato.comprato);
                     carrelloutente.setDatadiacq(LocalDateTime.now());
+                    u.getStoricoOrdini().add(carrelloutente);
         }
 
     }
